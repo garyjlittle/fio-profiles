@@ -1,0 +1,14 @@
+[global]
+# Average IO size is 16KB
+bs=16k
+# Power users rule of thumb is 25 IOPS per user.  
+# simulating 100 users requires 2500 IOPS
+rate_iops=2500
+# We are simulating IO for many users after the IO's have 
+# passed through the guest (i.e. Windows) filesystem and down 
+# to the disk - therefore we bypass the filesystem using direct=1
+direct=1
+
+
+[vdi]
+filename=/tmp
