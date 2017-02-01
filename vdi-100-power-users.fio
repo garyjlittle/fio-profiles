@@ -1,14 +1,25 @@
 [global]
 # Average IO size is 16KB
-bs=16k
+bs=8k
+# Workload is 80% write 100% random.
+rw=randrw
+rwmixread=20
 # Power users rule of thumb is 25 IOPS per user.  
-# simulating 100 users requires 2500 IOPS
-rate_iops=2500
+# simulating 100 users requires 2500 IOPS split 20,80 (Read:Write).
+rate_iops=500,2000
 # We are simulating IO for many users after the IO's have 
 # passed through the guest (i.e. Windows) filesystem and down 
 # to the disk - therefore we bypass the filesystem using direct=1
+# allow a queue depth of 100 to simulate 100 concurrent users.
 direct=1
+iodepth=100
+ioengine=posixaio
+# Specify an overall size - since we simulate 100 users make this (100*2G)/10(files)=20G per job.
+size=2G
+# Make this run for a specified time.  runtime value is in seconds.
+time_based
+runtime=600
 
 
-[vdi]
-filename=/tmp
+[vdi0-10]
+filename=/tmp/vdisim1:/tmp/vdisim2
